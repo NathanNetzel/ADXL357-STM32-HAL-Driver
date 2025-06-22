@@ -1,92 +1,98 @@
-ADXL357 STM32 HAL Driver
+# ADXL357 STM32 HAL Driver
 
-C driver library para o sensor acelerômetro ADXL357 de 3 eixos, baixo ruído e baixa deriva.
-Desenvolvido para microcontroladores STM32 utilizando a biblioteca STM32 HAL e interface SPI.
-
----
-
-Features
-
-- Verificação do ID do dispositivo
-- Configuração da taxa de saída de dados (output data rate) e faixa de medição
-- Habilitação do modo de medição contínua
-- Leitura dos dados de aceleração nos eixos X, Y e Z
-- Comunicação SPI com controle do Chip Select (CS)
-- Tratamento básico de erros
+C driver library for the ADXL357 low-noise, low-drift 3-axis accelerometer sensor.  
+Designed for STM32 microcontrollers using the STM32 HAL library and SPI interface.
 
 ---
 
-Requisitos
+## **Features**
 
-- Microcontrolador STM32 com biblioteca STM32 HAL
-- Interface SPI conectada ao sensor ADXL357
-- Conhecimento básico em C embarcado e uso do STM32CubeIDE ou similar
+- Verify device ID  
+- Configure output data rate and measurement range  
+- Enable continuous measurement mode  
+- Read acceleration data from X, Y, Z axes  
+- SPI communication with chip select control  
+- Basic error handling  
 
 ---
 
-Quick Start
+## **Requirements**
 
-1. Adicione os arquivos do driver ao seu projeto
+- STM32 MCU with STM32 HAL library  
+- SPI hardware interface connected to ADXL357 sensor  
+- Basic experience with embedded C and STM32CubeIDE or similar  
 
-Inclua ADXL357.c e ADXL357.h na pasta de código-fonte do seu projeto STM32.
+---
 
-2. Configure seu hardware
+## **Quick Start**
 
-Configure o periférico SPI e os pinos GPIO do SPI e do Chip Select (CS) conforme o esquema da sua placa.
+1. Add driver files to your project
 
-3. Inicialize a estrutura de handle do driver
+Include `ADXL357.c` and `ADXL357.h` in your STM32 project source folder.
 
+2. Configure your hardware
+
+Set up SPI peripheral and GPIO pins for SPI and Chip Select (CS) according to your board schematic.
+
+3. Initialize driver handle structure
+
+```c
 ADXL357_HW_InitTypeDef ADXL357_Handle = {
-    .SPIhandler = &hspi1,             // Handle SPI configurado no seu projeto
-    .CS_GPIOport = GPIOA,             // Porta GPIO do pino CS
-    .CS_GPIOpin = GPIO_PIN_4,         // Pino GPIO do CS
-    .SPI_Timeout = 100                // Timeout SPI em milissegundos
+    .SPIhandler = &hspi1,             // Your SPI handle configured in your project
+    .CS_GPIOport = GPIOA,             // GPIO port of CS pin
+    .CS_GPIOpin = GPIO_PIN_4,         // GPIO pin of CS
+    .SPI_Timeout = 100                // SPI timeout in milliseconds
 };
+```
 
-4. Verifique a conexão com o sensor
+4. Verify sensor connection
 
+```c
 if (ADXL357_ID_Verify(&ADXL357_Handle) != ADXL_NO_ERROR) {
-    // Trate erro: sensor não detectado
+    // Handle error: sensor not detected
 }
+```
 
-5. Configure as configurações do sensor
+5. Configure sensor settings
 
+```c
 ADXL357_Set_Output_DataRate(&ADXL357_Handle, ADXL_RATE_100HZ);
 ADXL357_Set_Range(&ADXL357_Handle, ADXL_RANGE_40G);
 ADXL357_Set_Continuous_Measurement(&ADXL357_Handle);
+```
 
-6. Leia os dados de aceleração
+6. Read acceleration data
 
+```c
 ADXL357_Data_TypeDef accel_data;
 if (ADXL357_Data_Read(&ADXL357_Handle, &accel_data) == ADXL_NO_ERROR) {
     int32_t x = accel_data.DX;
     int32_t y = accel_data.DY;
     int32_t z = accel_data.DZ;
-    // Processar dados de aceleração
+    // Process acceleration data
 }
+```
 
 ---
 
-API Overview
+## **API Overview**
 
-Função                         - Descrição
-------------------------------|-----------------------------------
-ADXL357_ID_Verify()            - Verifica presença do sensor
-ADXL357_Set_Output_DataRate()  - Define taxa de saída de dados
-ADXL357_Set_Range()            - Define faixa de medição
-ADXL357_Set_Continuous_Measurement() - Ativa medição contínua
-ADXL357_Data_Read()            - Lê dados de aceleração X, Y, Z
-ADXL357_SingleRegister_Read() e Write() - Acesso baixo nível a registradores
+- `ADXL357_ID_Verify()` — Verify sensor presence  
+- `ADXL357_Set_Output_DataRate()` — Set output data rate  
+- `ADXL357_Set_Range()` — Set measurement range  
+- `ADXL357_Set_Continuous_Measurement()` — Enable continuous measurement  
+- `ADXL357_Data_Read()` — Read acceleration data X, Y, Z  
+- `ADXL357_SingleRegister_Read()` and `Write()` — Low-level register access  
 
 ---
 
-License
+## **License**
 
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 ---
 
-Autor
+## **Author**
 
-Nathan Netzel
-Estudante de Engenharia Elétrica - Universidade Estadual de Londrina
+Nathan Netzel  
+Electrical Engineering Student - Londrina State University
