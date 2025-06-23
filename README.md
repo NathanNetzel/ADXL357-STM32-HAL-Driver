@@ -24,6 +24,10 @@ Designed for STM32 microcontrollers using the STM32 HAL library and SPI interfac
 
 ---
 
+**Note:**  
+This driver includes `#include "stm32h5xx_hal.h"` in the header files and is configured for the STM32H5 series.  
+If you intend to reuse the code for other STM32 families, please adjust the HAL include and any hardware-specific settings accordingly.
+
 ## **Quick Start**
 
 1. Add driver files to your project
